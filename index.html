@@ -68,6 +68,7 @@
       align-items: center;
       justify-content: center;
       z-index: 1000;
+      padding: 1rem;
     }
 
     .modal-content {
@@ -75,7 +76,7 @@
       padding: 2rem;
       border-radius: 10px;
       max-width: 500px;
-      width: 90%;
+      width: 100%;
       text-align: center;
       position: relative;
       box-shadow: 0 5px 15px rgba(0,0,0,0.3);
@@ -95,6 +96,29 @@
     .modal-content p {
       font-size: 1rem;
       color: #444;
+      margin: 0.5rem 0;
+    }
+
+    .modal-content .price {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #0099cc;
+    }
+
+    .modal-content button {
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #0099cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .modal-content button:hover {
+      background-color: #0077aa;
     }
 
     .close {
@@ -104,6 +128,21 @@
       font-size: 2rem;
       color: #333;
       cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      .modal-content {
+        padding: 1.5rem;
+      }
+
+      .modal-content h2 {
+        font-size: 1.5rem;
+      }
+
+      .modal-content p,
+      .modal-content .price {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
@@ -130,6 +169,8 @@
         <img :src="selectedFish.image" :alt="selectedFish.name" />
         <h2>{{ selectedFish.name }}</h2>
         <p>{{ selectedFish.description }}</p>
+        <p class="price">{{ selectedFish.price }}</p>
+        <button @click="buyFish(selectedFish)">Buy Now</button>
       </div>
     </div>
   </div>
@@ -145,32 +186,38 @@
             {
               name: 'Red Melon Discus',
               image: 'images/red melon.jpg',
-              description: 'Bright red coloration with a smooth body pattern.'
+              description: 'Bright red coloration with a smooth body pattern.',
+              price: '€45.00'
             },
             {
               name: 'Blue Diamond Discus',
               image: 'images/blue diamond.jpg',
-              description: 'Deep blue fish with a diamond-like shimmer.'
+              description: 'Deep blue fish with a diamond-like shimmer.',
+              price: '€50.00'
             },
             {
               name: 'Pigeon Blood Discus',
               image: 'images/pigeon blood.jpg',
-              description: 'White and red spotted pattern, very popular among collectors.'
+              description: 'White and red spotted pattern, very popular among collectors.',
+              price: '€55.00'
             },
             {
               name: 'Leopard Discus',
               image: 'images/leopard.jpg',
-              description: 'Spotted discus with intense red and blue contrasts.'
+              description: 'Spotted discus with intense red and blue contrasts.',
+              price: '€60.00'
             },
             {
               name: 'Golden Yellow Discus',
               image: 'images/yellow.jpg',
-              description: 'Golden body with a slight orange hue, very eye-catching.'
+              description: 'Golden body with a slight orange hue, very eye-catching.',
+              price: '€50.00'
             },
             {
               name: 'Turquoise Discus',
               image: 'images/turquoise.jpg',
-              description: 'Turquoise stripes with brilliant color contrast, perfect for planted tanks.'
+              description: 'Turquoise stripes with brilliant color contrast, perfect for planted tanks.',
+              price: '€60.00'
             }
           ]
         };
@@ -181,9 +228,14 @@
         },
         closeModal() {
           this.selectedFish = null;
+        },
+        buyFish(fish) {
+          alert(`Thank you for choosing to buy the ${fish.name} (${fish.price})!`);
+          this.closeModal();
         }
       }
     }).mount('#app');
   </script>
 </body>
 </html>
+
