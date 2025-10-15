@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Irish Discus Fish Store</title>
+  <title>Discus Fish Store</title>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <style>
     body {
@@ -11,41 +11,99 @@
       margin: 0;
       background: #f4f6f8;
     }
+
     header {
       background-color: #0099cc;
       color: white;
       padding: 1rem;
       text-align: center;
     }
+
     .container {
       max-width: 1200px;
       margin: 2rem auto;
       padding: 0 1rem;
     }
+
     .fish-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 1.5rem;
     }
+
     .fish-card {
       background: white;
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       overflow: hidden;
       transition: transform 0.2s;
+      cursor: pointer;
     }
+
     .fish-card:hover {
       transform: scale(1.02);
     }
+
     .fish-card img {
       width: 100%;
       height: 200px;
       object-fit: cover;
     }
+
     .fish-card h3 {
       margin: 0;
       padding: 1rem;
       font-size: 1.2rem;
+    }
+
+    /* Modal styles */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .modal-content img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+    }
+
+    .modal-content p {
+      font-size: 1rem;
+      color: #444;
+    }
+
+    .close {
+      position: absolute;
+      top: 0.5rem;
+      right: 1rem;
+      font-size: 2rem;
+      color: #333;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -55,13 +113,23 @@
       <h1>Discus Fish Store</h1>
       <p>Beautiful & Healthy Discus Fish for Your Aquarium</p>
     </header>
-    
+
     <div class="container">
       <div class="fish-grid">
-        <div class="fish-card" v-for="fish in fishes" :key="fish.name">
+        <div class="fish-card" v-for="fish in fishes" :key="fish.name" @click="openModal(fish)">
           <img :src="fish.image" :alt="fish.name" />
           <h3>{{ fish.name }}</h3>
         </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" v-if="selectedFish" @click.self="closeModal">
+      <div class="modal-content">
+        <span class="close" @click="closeModal">&times;</span>
+        <img :src="selectedFish.image" :alt="selectedFish.name" />
+        <h2>{{ selectedFish.name }}</h2>
+        <p>{{ selectedFish.description }}</p>
       </div>
     </div>
   </div>
@@ -72,33 +140,48 @@
     createApp({
       data() {
         return {
+          selectedFish: null,
           fishes: [
-  {
-    name: 'Red Melon Discus',
-    image: 'images/red melon.jpg'
-  },
-  {
-    name: 'Blue Diamond Discus',
-    image: 'images/blue diamond.jpg'
-  },
-  {
-    name: 'Pigeon Blood Discus',
-    image: 'images/pigeon blood.jpg'
-  },
-  {
-    name: 'Leopard Discus',
-    image: 'images/leopard.jpg'
-  },
-  {
-    name: 'Golden Yellow Discus',
-    image: 'images/yellow.jpg'
-  },
-  {
-    name: 'Turquoise Discus',
-    image: 'images/turquoise.jpg'
-  }
-]
+            {
+              name: 'Red Melon Discus',
+              image: 'images/red melon.jpg',
+              description: 'Bright red coloration with a smooth body pattern.'
+            },
+            {
+              name: 'Blue Diamond Discus',
+              image: 'images/blue diamond.jpg',
+              description: 'Deep blue fish with a diamond-like shimmer.'
+            },
+            {
+              name: 'Pigeon Blood Discus',
+              image: 'images/pigeon blood.jpg',
+              description: 'White and red spotted pattern, very popular among collectors.'
+            },
+            {
+              name: 'Leopard Discus',
+              image: 'images/leopard.jpg',
+              description: 'Spotted discus with intense red and blue contrasts.'
+            },
+            {
+              name: 'Golden Yellow Discus',
+              image: 'images/yellow.jpg',
+              description: 'Golden body with a slight orange hue, very eye-catching.'
+            },
+            {
+              name: 'Turquoise Discus',
+              image: 'images/turquoise.jpg',
+              description: 'Turquoise stripes with brilliant color contrast, perfect for planted tanks.'
+            }
+          ]
         };
+      },
+      methods: {
+        openModal(fish) {
+          this.selectedFish = fish;
+        },
+        closeModal() {
+          this.selectedFish = null;
+        }
       }
     }).mount('#app');
   </script>
